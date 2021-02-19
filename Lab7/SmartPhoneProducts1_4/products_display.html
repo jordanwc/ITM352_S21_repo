@@ -10,6 +10,7 @@
       var name = "Jordan Chen";
       var first_name= 'Jordan';
       var last_name ='Chen';
+      var over_half = false;
   </script>
 
 </head>
@@ -36,6 +37,9 @@
         Hits:<span id="hits_span">0</span>
         Spins:<span id="spins_span">0</span>
         Hit/Spin:<span id="hit_spin_span">0</span>
+        You win:<span id="win_span">pending...</span>
+        
+
         </p>
 
 
@@ -48,12 +52,18 @@
     spins_span.innerHTML = spins; 
     this.className='item rotate'; 
     hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
+    win_span.innerHTML = ( (hits/spins >= 0.5) && (hits < spins) );
+    over_half || = ( (hits/spins >= 0.5) && (hits < spins) );
     "
     onclick=" 
     hits +=1 ;
+    win_span.innerHTML = ( (hits/spins >= 0.5) && (hits < spins) );
+    over_half || = ( (hits/spins >= 0.5) && (hits < spins) );
     hits_span.innerHTML = hits;
+    
 
    this.className='item'; ">
+   
 
         <input id= 'speedSlider' type = 'range' min =".1" max ="5" step=".1 style" style="direction: rt1;">
         <h2>HTC</h2>
