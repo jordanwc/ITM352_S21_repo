@@ -32,7 +32,9 @@
    <h1>
        Used Smart Phone Store
    </h1>
+
     </center>
+
     <p style="text-align: center; font-weight: bold;">
         Hits:<span id="hits_span">0</span>
         Spins:<span id="spins_span">0</span>
@@ -48,22 +50,50 @@
     <div><main>
     <section class="item" id="HTC" 
     onmouseover=" 
-    spins +=1;
-    spins_span.innerHTML = spins; 
+   if (!this.className.includes == ('rotate')) {
+
+        spins_span.innerHTML = ++spins; 
+        this.className='item rotate'; 
+   }
+        hits_spins_ratio = hits/spins;
+        if ( hits_spins_ratio > 0 && hits_spins_ratio < 0.25) {
+
+            progress = 'On your way!';
+        }
+           else if ( hits_spins_ratio >= 0.25 && hits_spins_ratio < 0.5) {
+                progress = 'Almost there!';
+           }
+           else if ( hits_spins_ratio >= 0.5 ) {
+                   if(hits < spins) {
+                    progress = 'You win!';
+                   
+                }
+        }
+        else {
+            progress = 'Get going!' ;
+        }
+
+   
+    hit_spin_span.innerHTML = (hits_spins_ratio).toFixed(2);
+    over_half || = ( (hits_spins_ratio >= 0.5) && (hits < spins) );
+    win_span.innerHTML = progress;
+    "
+    onclick=" 
+
+   if(this.className.includes ('rotate')) {
+    hits_span.innerHTML = ++hits;
+    this.className='item';
+
+    } 
+    
+    else {
     this.className='item rotate'; 
-    hit_spin_span.innerHTML = (hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
+   }
+
     win_span.innerHTML = ( (hits/spins >= 0.5) && (hits < spins) );
     over_half || = ( (hits/spins >= 0.5) && (hits < spins) );
     "
-    onclick=" 
-    hits +=1 ;
-    win_span.innerHTML = ( (hits/spins >= 0.5) && (hits < spins) );
-    over_half || = ( (hits/spins >= 0.5) && (hits < spins) );
-    hits_span.innerHTML = hits;
-    
-
-   this.className='item'; ">
-   
+    >
 
         <input id= 'speedSlider' type = 'range' min =".1" max ="5" step=".1 style" style="direction: rt1;">
         <h2>HTC</h2>
