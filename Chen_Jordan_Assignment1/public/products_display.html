@@ -1,0 +1,131 @@
+<script>
+
+var products = [
+    {
+        "name": "PS5",
+        "price": 500.00,
+        "image": "PS5.jpg"
+    },
+
+    {
+        "name": "Xbox Series X",
+        "price": 500.00,
+        "image": "XboxX.jpg"
+    },
+
+    {
+        "name": "PS4",
+        "price": 400.00,
+        "image": "PS4.jpg"
+    },
+
+    {
+        "name": "Xbox 360",
+        "price": 400.00,
+        "image": "Xbox360.jpg"
+
+    },
+
+    {
+        "name": "Nintendo Switch",
+        "price": 300.00,
+        "image": "Switch.jpg"
+
+    }
+];
+
+</script>
+
+<script>
+  function checkQuantityTextbox(theTextbox) { // Checks the textbox from the isNonNegInt function
+    errs = isNonNegInt(theTextbox.value, true); // Refers to the isNonNegInt function to see if true or false
+    if (errs.length == 0) errs = ['Quantity']; // Adjusts the quantity to the customers request
+    if (theTextbox.value.trim() == '') errs = ['Quantity'];
+    document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
+
+  function isNonNegInt(q, returnErrors = false) {
+    errors = []; // assume no errors at first
+    if (q == '') q = 0; // puts blank inputs to a quantity of 0
+    if (Number(q) != q) errors.push('<font color="red"> Not a number!</font>'); // Check if string is a number value
+    else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+    else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+    return returnErrors ? errors : (errors.length == 0);
+  }
+}
+
+function generate_item_rows(product_quantities_array){
+// Product row 
+      for(i in products){
+          if(quantities[i] ==0) continue;
+          extended_prices = quantities[i] * products[i],price;
+          errs = isNonNegInt(quantities[i], true);
+          qty_str = quantities[i];
+          if(errs.length > 0){
+            qty_str += `<br><span style ="color:red;">${errs.join("<br>")}</span>`;
+           extended_prices = 0;
+     }
+    }
+          
+        var params = (new URL(document.location)).searchParams;
+       if (params.has ('quantity_textbox')){
+         quantity_textbox
+          
+         Subtotal += extended_prices;
+
+      
+          
+          document.write(`
+          <tr>
+            <td width="43%">${products[i].name}</td>
+            <td align="center" width="11%">${product_quantities_array[i]}<br><font color ="red">${errors.join('<br>')}</font></td>
+            <td width="13%">\$${products[i].price}</td>
+            <td width="54%">\$${extended_prices}</td>
+          </tr>
+          `);
+        }
+      }
+    
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <link rel="stylesheet" href="product-style.css">
+   
+</head>
+<body>
+    <h1> New Gaming Console Store</h1>
+    <form action="./invoice.html" method="GET">
+    <div>
+        <main>
+    <script>
+
+        for( i = 0; i <= products.length; i++){
+
+        document.write(`
+
+         <section class="item">
+        <h2>${products[i].name}</h2>
+        <p>$${products[i].price}</p>
+        <input type = "text" placeholder ="0" name="quantity${i}">
+        <img src="./images/${products[i].image}">
+    </section>
+
+        `);
+
+    }
+    </script>
+</main>
+
+</div>
+<input type="submit" value = "Purchase">
+</form>
+
+<h1>Your One Stop Gaming Shop</h1>
+
+</body>
+</html>

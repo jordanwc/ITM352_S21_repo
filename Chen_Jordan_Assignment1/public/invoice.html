@@ -1,10 +1,6 @@
-<script scr = "products_data.js">
-
-</script>
 <script>
-  let params = (new URL (document.location)).searchParams;
-  var quantities = []
-   var product= [
+
+var products = [
     {
         "name": "PS5",
         "price": 500.00,
@@ -19,55 +15,43 @@
 
     {
         "name": "PS4",
-        "price": 300.00,
+        "price": 400.00,
         "image": "PS4.jpg"
     },
 
     {
         "name": "Xbox 360",
-        "price": 300.00,
+        "price": 400.00,
         "image": "Xbox360.jpg"
 
     },
 
     {
         "name": "Nintendo Switch",
-        "price": 500.00,
+        "price": 300.00,
         "image": "Switch.jpg"
 
     }
-]
+];
 
-  var quantities = [1, 2, 3, 4, 5];
- function generate_item_rows(product_quantities_array)
-// Product row 
-        for(i in products){
-          if(product_quantities_array[i] ==0) continue;
-          errors = isNonNegInt(product_quantities_array[i], true);
-          if (errors.length ==0){
-          extended_prices = products[i].price * product_quantities_array[i];
-          Subtotal += extended_prices;
-          } else {
-            extended_prices = "0"
-          }
-            document.write(`
-          <tr>
-            <td width="43%">${products[i].brand}</td>
-            <td align="center" width="11%">${product_quantities_array[i]}<br><font color ="red">${errors.join('<br>')}</font></td>
-            <td width="13%">\$${products[i].price}</td>
-            <td width="54%">\$${extended_prices}</td>
-          </tr>
-          `);
-        }
+</script>
 
-        function isNonNegInt(check, returnErrors=false){
-    errors = []; // assume no errors at first
-    if(Number(check) != check) errors.push('Not a number!'); // Check if string is a number value
-    if(check < 0) errors.push('Negative value!'); // Check if it is non-negative
-    if(parseInt(check) != check) errors.push('Not an integer!'); // Check that it is an integer
-
-    return returnErrors ? errors : (errors.length == 0);
-}
+<script>
+ 
+let params = (new URL(document.location)).searchParams;
+  var quantities = []; // Check that we have quantities submitted
+  if (params.has('purchasesubmit')) { // If everything is good, create a loop for every product
+    for (i = 0; i < products.length; i++) {
+      if (params.has(`quantity${i}`)) { // Checking if ...
+        a_qty = params.get(`quantity${i}`);
+        quantities[i] = a_qty;
+      }
+    }
+  } else {
+    document.write('Please enter a valid quantity'); // If there is no valid quantity inputted, this will tell customers to select a valid quantity
+  }
+  console.log(quantities); // Print out the quantities in the table 
+ 
 
 </script>
 
