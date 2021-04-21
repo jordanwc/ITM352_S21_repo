@@ -1,3 +1,4 @@
+// Product arrays
 var products = [
     {
         "name": "PS5",
