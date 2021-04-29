@@ -5,7 +5,7 @@
 
 <script>
 
-//Process the submission form
+  //Process the submission form
 
   let params = (new URL(document.location)).searchParams;
 
@@ -24,10 +24,10 @@
 
 <body>
 
-  
+
   <table border="2">
     <tbody>
-    
+
       <tr>
         <th style="text-align: center;" width="43%">Item</th>
         <th style="text-align: center;" width="11%">quantity</th>
@@ -35,13 +35,10 @@
         <th style="text-align: center;" width="54%">extended price</th>
       </tr>
 
-
-
-
       <script>
 
-// Code used from Invoice 4 and reference from screencast
-//Checks and display purchased items
+        // Code used from Invoice 4 and reference from screencast
+        //Checks and display purchased items
         var Subtotal = 0;
         for (i in products) {
           if (params.has(`quantity${i}`)) { // Checking if ...

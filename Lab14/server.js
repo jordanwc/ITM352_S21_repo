@@ -3,8 +3,31 @@ var app = express();
 var myParser = require("body-parser");
 app.use(myParser.urlencoded({extended : true}));
 var qs = require('qs');
+var fs = require('fs');
 const { type } = require('node:os');
+var cookieParser = require ('cookie=parser');
+app.use(cookieParser());
+var session = require ('exoress-session');
 
+app.use(session({secret: "ITM352 rocks!"}));
+
+app.get('/set_cookie', function (req, res, next){
+
+    let my_name = 'Jordan Chen';
+    res.cookie('my_name', my_name, {expire: 5000 +Date.now()});
+    res.send(`Cookie for ${my_name} sent`);
+    next();
+});
+
+app.get('/use_cookie', function (req, res, next){
+    if(typeof res.cookie["my_name"]!='undefined'){
+    res.send(`Hello ${res.cookie["my_name"]}!`);
+} else {
+    res.send("I don't know you!");
+
+}
+    next();
+});
 //var user_data = require('./user_data.json');
 //const { copyFileSync } = require('node:fs');
 //console.log(user_data['dport']['password'])
@@ -32,6 +55,7 @@ fs.writeFileSync(user_data_file, JSON.stringify(user_data))
 });
 
 app.all('*', function (req,res, next){
+    console.log(req);
     console.log(req.method, req.path);
     next();
 });
@@ -59,3 +83,12 @@ app.post('./process_register', function (request, response, next){
     response.send(request.body);
 
 });
+
+//This processes the login form
+app.post ('./process_register', function(request, response, next) {
+    response.send(request.body);
+});
+
+app.use(express.static('./'));
+
+var listener = app.listen (8080, ()=>{console.log('server started listening on port' + listener)})

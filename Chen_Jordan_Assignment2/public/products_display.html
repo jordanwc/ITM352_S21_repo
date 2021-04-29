@@ -58,7 +58,8 @@ function generate_item_rows(product_quantities_array){
         }
       }
     
-
+      var params = (new URL(document.location)).searchParams;
+     
 </script>
 
 <!DOCTYPE html>
@@ -72,26 +73,29 @@ function generate_item_rows(product_quantities_array){
 </head>
 <body>
     <h1> New Gaming Console Store</h1>
-    <form action="./invoice.html" method="POST">
+    <form name = "productform" action="./process_page" method="POST">
     <div>
         <main>
     <script>
 // Referenced WOD SmartPhoneProducts2
         for( i = 0; i <= products.length; i++){
-
+    
         document.write(`
 
          <section class="item">
         <h2>${products[i].name}</h2>
         <p>$${products[i].price}</p>
-        <input type = "text" placeholder ="0" name="quantity${i}">
+        <input type = "text" placeholder ="0" name="quantity${i}" id="quantity${i}">
         <img src="./images/${products[i].image}">
     </section>
 
         `);
 
-    
+        if (params.has (`quantity${i}`)){
+          document.getElementById(`quantity${i}`).value = params.get(`quantity${i}`); // Make text box sticky
+       }
     }
+  
     </script>
 </main>
 

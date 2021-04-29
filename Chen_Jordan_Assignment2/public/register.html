@@ -2,13 +2,30 @@
 <html lang="en">
 <head>
 
-
     <link rel="register.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+<script>
+  var password = document.getElementById("password"); //turns password into an object
+  var repeat_password = document.getElementById("repeat_password"); //turns repeat password into an object
+
+  function validatePassword() {
+    if (password.value != repeat_password.value) { //if password is not equal to repeat password, say passwords don't match
+      alert("Passwords do not match.");
+      response.redirect('public/registration.html')
+    }
+    else {
+      response.redirect('Login_Successful')
+    }
+
+  }
+  validatePassword();
+</script>
+
 <body>
     <form action="process_register" method = "POST">
         <div class="container">
@@ -34,7 +51,9 @@
         </div>
       
         <div class="container signin">
-          <p>Already have an account? <a href="#">Sign in</a>.</p>
+          <script>
+            document.write(`<p>Already have an account? <a href="login.html${location.search}">Sign In!</a></p>`);
+           </script>
         </div>
       </form>
 </body>
