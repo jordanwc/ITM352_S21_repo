@@ -1,16 +1,17 @@
-<script src="products_data.js">
+<!--Author: Jordan Chen 
+Assignment 2 file for invoice page
+Followed Professor Port's Assignment 1 screencast-->
 
+<script src="products_data.js"> //Link to the products array from products_data.js
 
 </script>
 
 <script>
 
   //Process the submission form
-
   let params = (new URL(document.location)).searchParams;
 
 </script>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,33 +20,35 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Invoice</title>
 </head>
 
 <body>
 
-
-  <table border="2">
+  <table border="5">
     <tbody>
-
+      <!--Creates the box outline-->
       <tr>
-        <th style="text-align: center;" width="43%">Item</th>
-        <th style="text-align: center;" width="11%">quantity</th>
-        <th style="text-align: center;" width="13%">price</th>
-        <th style="text-align: center;" width="54%">extended price</th>
+        <th style="text-align: middle;" width="60%">Item</th>
+        <th style="text-align: middle;" width="15%">Quantity</th>
+        <th style="text-align: middle;" width="13%">Price</th>
+        <th style="text-align: middle;" width="40%">Extended Price</th>
+
       </tr>
 
       <script>
 
-        // Code used from Invoice 4 and reference from screencast
+        // Code used from Invoice 4 and reference from Professor Port's Assignment 1 screencast
         //Checks and display purchased items
-        var Subtotal = 0;
-        for (i in products) {
-          if (params.has(`quantity${i}`)) { // Checking if ...
-            a_qty = params.get(`quantity${i}`);
-            if (a_qty == 0) continue;
-            extended_prices = products[i].price * a_qty;
-            Subtotal += extended_prices;
+        var Subtotal = 0; // Creating a varaible for subtotal
+        for (i in products) { // Reads which products are being checked out then lists the items out with the price
+          if (params.has(`quantity${i}`)) { // Checking if quantities are entered 
+            a_qty = params.get(`quantity${i}`); // Gets the quantities entered
+            if (a_qty == 0) continue; // Continue if quantites is equal to 0
+            extended_prices = products[i].price * a_qty; // Calculate extended price using the equation of price of product times quantites
+            Subtotal += extended_prices; // Calculate the subtotal amount
+            
+            //Display the invoice of product name, quantity, price of product, and extended price
             document.write(`
           <tr>
             <td width="43%">${products[i].name}</td>
@@ -60,29 +63,30 @@
 
         // Calculate sales tax
 
-        var tax_rate = 0.0575;
-        var tax = tax_rate * Subtotal;
+        var tax_rate = 0.0575; //Create a varaible for the tax rate
+        var tax = tax_rate * Subtotal; //Create a calculation equation for tax, tax rate times subtotal
 
         //Shipping
 
-        if (Subtotal <= 99.99) {
+        if (Subtotal <= 99.99) { //If total is less than or equal to $99.99 then shipping is $2
 
           Shipping = 2;
         }
 
-        else if (Subtotal <= 199.99) {
+        else if (Subtotal <= 199.99) { //If total is less than or equal to $199.99 then shipping is $5
+
           Shipping = 5;
         }
 
         else {
 
-          Shipping = 0.05 * Subtotal;
+          Shipping = 0.05 * Subtotal; // If cost is greater than $199.99 than multiple subtotal by .05
         }
 
-        // Total
-
+        // Create a variable for total, sum of all items and fees
         var total = Subtotal + tax + Shipping;
 
+// Display the subtotal, tax, and shipping cost
       </script>
 
       <tr>
@@ -121,17 +125,53 @@
             </script>
           </strong></td>
       </tr>
+      <tr>
+        <td style="text-align: center;" colspan="4" width="67%">SHIPPING POLICY: A subtotal $0 - $99.99 will be $2
+          shipping
+          A subtotal $100.00 - $199.99 will be $5 shipping
+          Subtotals over $300 will be charged 5% of the subtotal amount
+        </td>
+      </tr>
 
     </tbody>
   </table>
-  <div>
-    <br>
-    OUR SHIPPING POLICY IS:A subtotal $0 - $99.99 will be $2 shipping
-    A subtotal $100.00 - $199.99 will be $5 shipping
-    Subtotals over $300 will be charged 5% of the subtotal amount
-    </br>
-
   </div>
+  <!--Adjusting the format display on screen-->
+  <style>
+    body {
+      margin: 15 auto;
+      width: 480px;
+    }
+
+    table {
+      height: 50%;
+      width: 90%;
+      display: center;
+      text-align: middle;
+      color: white;
+      font-size: 150%;
+      background-color: deepskyblue;
+    }
+
+    tr {
+
+      text-align: middle;
+
+    }
+
+    body {
+
+      background-image: url('/images/invoiceimg.jpg');
+      min-height: 20%;
+      background-position: left;
+      background-size: cover;
+    }
+
+    div {
+      color: white;
+      font-size: 120%;
+    }
+  </style>
 
 </body>
 
