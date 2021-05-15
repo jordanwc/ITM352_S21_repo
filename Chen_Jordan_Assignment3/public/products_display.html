@@ -1,0 +1,226 @@
+<!-- Author: Jordan Chen 
+-Assignment 3 file products page
+-Followed Professor Port's Assignment 1 screencast
+-Helped by Professor Port in office hours -->
+
+<script src="products_data.js"> //Link to the products array from products_data.js
+
+</script>
+
+<script>
+
+function loadJSON(service, callback) {
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('POST', service, false);
+    xobj.onreadystatechange = function () {
+      if (xobj.readyState == 4 && xobj.status == "200") {
+        // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+        callback(xobj.responseText);
+      }
+    };
+    xobj.send(null);
+  }
+
+  var products_data;
+  loadJSON('get_products_data', function (response) {
+    // Parsing JSON string into object
+    products_data = JSON.parse(response);
+  });
+  
+</script>
+<!--Template for nav bar used from w3school-->
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 16px 16px;
+    text-decoration: none;
+    font-size: 16px;
+
+  }
+
+  .topnavb {
+    text-align: right;
+    float: right;
+    padding: 16px 16px;
+  }
+  .topnavc {
+    text-align: left;
+    float: left;
+    padding: 16px 16px;
+  }
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .topnav a.active {
+    background-color: dodgerblue;
+    color: white;
+  }
+</style>
+</head>
+
+<body>
+<!--Helped by Professor Port in office hours,
+    Creating a nav bar that links to each specific console-->
+  <div class="topnav">
+    <script>
+      for(let ptype in allproducts){
+          document.write(`<a href="display.html?producttype=${ptype}">${ptype}</a>`)
+      }
+  </script>
+  
+  </div>
+
+  <div class="topnavb">
+    <a href="viewcart.html">Cart</a>
+</div>
+
+<div class="topnavc">
+  <a href="login.html">Login</a>
+</div>
+
+</body>
+
+</html>
+
+<script>
+  // Referenced code from Lab 11
+  function isNonNegInt(q, returnErrors = false) { //Check to see if values are integers, whole number, or positive
+    errors = []; // assume no errors at first
+    if (q == '') q = 0; // Puts blank inputs to a quantity of 0
+    if (Number(q) != q) errors.push('<font color="red"> Not a number!</font>'); // Check if string is a number value
+    else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+    else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+    return returnErrors ? errors : (errors.length == 0);
+
+    location.href = "./login.html" + location.search; //Send to login page after trying to checkout
+
+  }
+  // Referenced code from Professor Port's Assignment 1 screencast
+  function checkQuantityTextbox(theTextbox) { // Checks the textbox from the isNonNegInt function
+    errs = isNonNegInt(theTextbox.value, true); // Refers to the isNonNegInt function to see if true or false
+    if (errs.length == 0) errs = ['Quantity']; // Adjusts the quantity to the customers request
+    if (theTextbox.value.trim() == '') errs = ['Quantity'];
+    document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
+
+  }
+  /*
+  function getCookie(name = '') {
+    let cookies = document.cookie;
+    let cookiestore = {};
+
+    cookies = cookies.split(";");
+
+    if (cookies[0] == "" & cookies[0][0] == undefined) {
+      return undefined;
+    }
+    cookies.forEach(function(cookie) {
+      cookie = cookie.split(/=(.+)/);
+      if (cookie[0].substr(0, 1) == ' ') {
+        cookie[0] = cookie[0].substr(1);
+      }
+      cookiestore[cookie[0]] = cookie[1];
+    });
+    return (name !=='' ? cookiestore[name] : cookiestore);
+  }
+*/
+  function generate_item_rows(product_quantities_array) { //Function to geneterate products array
+    // Product row 
+    // Reads which products are being checked out then lists the items out with the price
+    for (i in products) {
+      if (quantities[i] == 0) continue; // If quantities are at 0 continue to check the other products
+      extended_prices = quantities[i] * products[i], price; // Calculating the extended price using an equation of numbere of quantities entered * price of product
+      errs = isNonNegInt(quantities[i], true); //Errors will occur if there the quantities are not whole numbers, positive, or an integer
+      qty_str = quantities[i]; //Amount of quantities 
+      if (errs.length > 0) { //If there are any errors
+        qty_str += `<br><span style ="color:red;">${errs.join("<br>")}</span>`; //The quantities will show up red 
+        extended_prices = 0; //Extended price default is at 0
+      }
+    }
+    //Process the submission form / Invoice
+    var params = (new URL(document.location)).searchParams;
+    if (params.has('quantity_textbox')) { //Checks for values entered into the quantity textbox
+      quantity_textbox
+
+      Subtotal += extended_prices; // Caluculates the subtotal
+
+
+      //Displays the invoice with the product, price, shipping, and extended price
+      document.write(`
+          <tr>
+            <td width="43%">${products[i].name}</td> 
+            <td align="center" width="11%">${product_quantities_array[i]}<br><font color ="red">${errors.join('<br>')}</font></td>
+            <td width="13%">\$${products[i].price}</td>
+            <td width="54%">\$${extended_prices}</td>
+          </tr>
+          `);
+    }
+  }
+
+  var params = (new URL(document.location)).searchParams; //Get query string
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="product-style.css">
+
+</head>
+
+<body>
+  <h1> Gaming Console Home </h1>
+  <form name="productform" action="./process_page" method="POST">
+    <!--Rquests for the products_page using POST method-->
+    <div>
+      <main>
+        <script>
+          // Referenced WOD SmartPhoneProducts2, helped by Professor Port in office hours
+          //Instead of hard coding we are calling different pages with images and prices using productkey
+          for (productkey in allproducts) { //Displays the products, images, and prices
+
+            document.write(`
+
+         <section class="item">
+        <h2>${productkey}</h2> 
+        <a href = "display.html?producttype=${productkey}">
+        <img src="./images/${productkey}.jpg">
+        </a>
+    </section>
+
+        `);
+  
+          }
+
+        </script>
+        
+      </main>
+
+    </div>
+
+  </form>
+
+  <h1>Your One Stop Gaming Shop</h1>
+
+</body>
+
+
+</html>

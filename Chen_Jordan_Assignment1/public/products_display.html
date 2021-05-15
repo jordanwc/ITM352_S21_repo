@@ -3,11 +3,11 @@
 //Followed Professor Port's Assignment 1 screencast -->
 
 <script src="products_data.js"> //Link to the products array from products_data.js
-
+  let params = (new URL(document.location)).searchParams; //Finding the location of the products document
 </script>
 
 <script>
- 
+
   // Referenced code from Professor Port's Assignment 1 screencast
   function checkQuantityTextbox(theTextbox) { // Checks the textbox from the isNonNegInt function
     errs = isNonNegInt(theTextbox.value, true); // Refers to the isNonNegInt function to see if true or false
@@ -17,16 +17,16 @@
 
   }
 
-     // Referenced code from Lab 11
-     function isNonNegInt(q, returnErrors = false) { //Check to see if values are integers, whole number, or positive
-      errors = []; // Assume no errors at first
-      if (q == '') q = 0; // Puts blank inputs to a quantity of 0
-      if (Number(q) != q) errors.push('<font color="red"> Not a number!</font>'); // Check if string is a number value
-      else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
-      else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
-      return returnErrors ? errors : (errors.length == 0);
-      
-    }
+  // Referenced code from Lab 11
+  function isNonNegInt(q, returnErrors = false) { //Check to see if values are integers, whole number, or positive
+    errors = []; // Assume no errors at first
+    if (q == '') q = 0; // Puts blank inputs to a quantity of 0
+    if (Number(q) != q) errors.push('<font color="red"> Not a number!</font>'); // Check if string is a number value
+    else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+    else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+    return returnErrors ? errors : (errors.length == 0);
+
+  }
 
   function generate_item_rows(product_quantities_array) { //Function to geneterate products array
     // Product row 
@@ -41,14 +41,14 @@
         extended_prices = 0; //Extended price default is at 0
       }
     }
-     //Process the submission form / Invoice
-    var params = (new URL(document.location)).searchParams; 
+    //Process the submission form / Invoice
+    var params = (new URL(document.location)).searchParams;
     if (params.has('quantity_textbox')) { //Checks for values entered into the quantity textbox
       quantity_textbox
 
       Subtotal += extended_prices; // Caluculates the subtotal
 
-       //Displays the invoice with the product, price, shipping, and extended price
+      //Displays the invoice with the product, price, shipping, and extended price
       document.write(`
           <tr>
             <td width="43%">${products[i].name}</td>
@@ -77,7 +77,7 @@
 <body>
   <h1> New Gaming Console Store</h1>
   <form action="./invoice.html" method="GET">
-     <!--Rquests for the invoice using GET method-->
+    <!--Rquests for the invoice using GET method-->
     <div>
       <main>
         <script>
@@ -95,7 +95,7 @@
 
         `);
 
-        if (params.has(`quantity${i}`)) { //Checks for quantites entered 
+            if (params.has(`quantity${i}`)) { //Checks for quantites entered 
               document.getElementById(`quantity${i}`).value = params.get(`quantity${i}`); // Make text box sticky
             }
           }
@@ -105,7 +105,7 @@
 
     </div>
     <input type="submit" value="Purchase">
-     <!--Button for submission-->
+    <!--Button for submission-->
   </form>
 
   <h1>Your One Stop Gaming Shop</h1>

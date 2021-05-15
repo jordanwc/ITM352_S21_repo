@@ -1,0 +1,248 @@
+<!--Author: Jordan Chen 
+Assignment 3 file for invoice page
+Followed Professor Port's Assignment 1 screencast-->
+
+<script src="products_data.js"> //Link to the products array from products_data.js
+
+</script>
+
+<script>
+
+  //Process the submission form
+  let params = (new URL(document.location)).searchParams;
+
+</script>
+<script>
+
+function CompletePurchase(){
+  console.log("CompletePurchase");
+  location.href = "./CompletePurchase"; //Changing location
+  var invoice_str = `Thank you for your order!<table border><th>quantities</th><th>Item</th>`;
+  var shopping_cart = request.session.cart;
+  for(productkey in products) {
+    for(i=0; i<products[product_key].length; i++) {
+        if(typeof shopping_cart[product_key] == 'undefined') continue;
+        qty = shopping_cart[product_key][i];
+        if(qty > 0) {
+          invoice_str += `<tr><td>${qty}</td><td>${products[product_key][i].name}</td><tr>`;
+        }
+    }
+}
+}
+invoice_str += '</table>';
+// Set up mail server. Only will work on UH Network due to security restrictions
+  var transporter = nodemailer.createTransport({
+    host: "mail.hawaii.edu",
+    port: 25,
+    secure: false, // use TLS
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false
+    }
+  }); 
+
+  var user_email = filename["email"];
+  var mailOptions = {
+    from: 'chen.jordan808@gmail.com',
+    to: user_email,
+    subject: 'Invoice',
+    html: invoice_str
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+    } else {
+      invoice_str += `<br>Your invoice was mailed to ${user_email}, Thank you`;
+    }
+    response.send(invoice_str);
+  }); 
+ 
+
+  // This function asks the server for a "service" and converts the response to text. 
+function loadJSON(service, callback) {   
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('POST', service, false);
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);  
+ }
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+</head>
+
+<body>
+
+  <table border="5">
+    <tbody>
+      <!--Creates the box outline-->
+      <tr>
+        <th style="text-align: middle;" width="60%">Item</th>
+        <th style="text-align: middle;" width="15%">Quantity</th>
+        <th style="text-align: middle;" width="13%">Price</th>
+        <th style="text-align: middle;" width="40%">Extended Price</th>
+
+      </tr>
+
+      <script>
+ var cart_data;
+        loadJSON('get_cart', function (response) {
+          // Parsing JSON string into object
+          cart_data = JSON.parse(response);
+        });
+        console.log(cart_data);
+        Subtotal = 0; // Initially set subtotal to 0
+        for (productkey in cart_data) {
+          products = allproducts[productkey];
+          for (i in cart_data[productkey]) {
+            if (cart_data[productkey][i] > 0) { // If quantities > 0 then perform the expression
+              extended_price = cart_data[productkey][i] * products[i].price;
+              Subtotal += extended_price; // subtotal = subtotal + extended_price
+              document.write(`
+          <tr>
+            <td width="43%">${products[i].name}</td>
+            <td align="center" width="11%">${cart_data[productkey][i]}</td>
+            <td width="13%">\$${products[i].price}</td>
+            <td width="54%">\$${extended_price}</td>
+          </tr>
+          `);
+            }
+          }
+        };
+       
+            //Display the invoice of product name, quantity, price of product, and extended price
+          
+        
+
+        // Calculate sales tax
+
+        var tax_rate = 0.0575; //Create a varaible for the tax rate
+        var tax = tax_rate * Subtotal; //Create a calculation equation for tax, tax rate times subtotal
+
+        //Shipping
+
+        if (Subtotal <= 99.99) { //If total is less than or equal to $99.99 then shipping is $2
+
+          Shipping = 2;
+        }
+
+        else if (Subtotal <= 199.99) { //If total is less than or equal to $199.99 then shipping is $5
+
+          Shipping = 5;
+        }
+
+        else {
+
+          Shipping = 0.05 * Subtotal; // If cost is greater than $199.99 than multiple subtotal by .05
+        }
+
+        // Create a variable for total, sum of all items and fees
+        var total = Subtotal + tax + Shipping;
+
+// Display the subtotal, tax, and shipping cost
+      </script>
+
+  
+      <tr>
+        <td colspan="4" width="100%">&nbsp;</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+        <td width="54%">$
+          <script>document.write(Subtotal);</script>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%">
+          <span style="font-family: arial;">Tax @
+            <script> document.write(100 * tax_rate);</script> %
+          </span>
+        </td>
+        <td width="54%">$
+          <script>document.write(tax.toFixed(2));</script>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%"> Shipping </span></td>
+        <td width="54%">$
+          <script>document.write(Shipping.toFixed(2));</script>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%">
+          <strong>Total</strong>
+        </td>
+        <td width="54%"><strong>$
+            <script>document.write(total.toFixed(2));
+            </script>
+          </strong></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="4" width="67%">SHIPPING POLICY: A subtotal $0 - $99.99 will be $2
+          shipping
+          A subtotal $100.00 - $199.99 will be $5 shipping
+          Subtotals over $300 will be charged 5% of the subtotal amount
+        </td>
+      </tr>
+
+      <input type="button" onclick= "CompletePurchase()" value="Purchase">
+
+    </tbody>
+  </table>
+  </div>
+  <!--Adjusting the format display on screen-->
+  <style>
+    body {
+      margin: 15 auto;
+      width: 480px;
+    }
+
+    table {
+      height: 50%;
+      width: 90%;
+      display: center;
+      text-align: middle;
+      color: white;
+      font-size: 150%;
+      background-color: deepskyblue;
+    }
+
+    tr {
+
+      text-align: middle;
+
+    }
+
+    body {
+
+      background-image: url('/images/invoiceimg.jpg');
+      min-height: 20%;
+      background-position: left;
+      background-size: cover;
+    }
+
+    div {
+      color: white;
+      font-size: 120%;
+    }
+  </style>
+
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<script src="./function.js">
+
+</script>
+
+<script>
+    var data;
+    loadJSON('get_products_data', function (response){
+    data = JSON.parse(response);
+
+    });
+
+    var cart_data;
+    loadJSON('get_cart', function (response){
+    cart_data = JSON.parse(response);
+
+    });
+
+
+order_str = 'Your order is:<br>';
+for(prod_key in cart_data) {
+var products = data [prod_key];
+var quantities = cart_data[prod_key];
+    // grab the quantities from the query string
+    
+    for (i in quantities) {
+        order_str += `You want ${quantities[i]} of ${products[i]['name']}<br>`;
+    }
+
+}
+document.write(order_str);
+</script>
