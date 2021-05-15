@@ -11,13 +11,13 @@ var products = data.products // Loads my products from products_data.js
 app.use(myParser.urlencoded({ extended: true }));
 var qs = require('qs'); // Loads starts up query string
 var fs = require('fs'); // Loads starts up fs system actions
-var session = require('express-session'); // Creating a variable for sessions
-var cookieParser = require('cookie-parser');
+var session = require('express-session'); // Creating a variable for sessions to load
+var cookieParser = require('cookie-parser'); //Variable for cookieParser
 app.use(cookieParser());
 const user_data_filename = 'user_data.json';
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer"); //Requring nodemailer
 
-
+//Borrowed code from lab 14, set cookies to user
 app.get('/set_cookie', function (request, response, next) {
 
     let my_name = 'Jordan Chen';
@@ -26,7 +26,7 @@ app.get('/set_cookie', function (request, response, next) {
     next();
 });
 
-// use with cookies
+// Using  cookies
 app.get('/use_cookie', function (request, response, next) {
     //console.log(req.cookie);
     if (typeof request.cookies["username"] != 'undefined') {
@@ -37,7 +37,8 @@ app.get('/use_cookie', function (request, response, next) {
     next();
 });
 
-app.use(session({secret: "ITM352 rocks!"})); //Allows the server to use sessions
+//Using sessions
+app.use(session({ secret: "ITM352 rocks!" })); //Allows the server to use sessions
 const querystring = require('querystring'); // Uses the query string 
 const { request } = require('express');
 
@@ -51,21 +52,22 @@ console.log(user_data); // Displays the request for user_data
 // detects request for all and displays path, code taken from Lab 13 
 app.all('*', function (request, response, next) { // Connects all my request for POST
     console.log(request.method + ' to path ' + request.path); //Displays the request for method and path
-    if(typeof request.session.cart == 'undefined'){
+    if (typeof request.session.cart == 'undefined') {
         request.session.cart = {};
     }
     next(); // Continue
 });
 
+//Getting products when items are added to cart
 app.get("/add_to_cart", function (request, response) {
     var params = request.query;
     console.log(params);
-   var prod_key = params['producttype'];
-   var quantities = params ['quantities'];
-   request.session.cart[prod_key] = quantities;
-   console.log(request.session.cart);
-   response.redirect(request.get('Refferer'));
-   
+    var prod_key = params['producttype']; //Variable for the products
+    var quantities = params['quantities']; //Variable for quantities
+    request.session.cart[prod_key] = quantities; //Cart is requesting the quantities that are added to cart
+    console.log(request.session.cart);
+    response.redirect(request.get('Refferer')); //Redirect to the same page
+
 });
 
 // Borrowed code from Lab 13
@@ -76,12 +78,12 @@ app.post("/process_page", function (request, response, next) { // Processes prod
     has_errors = false; // Assume quantities are valid
     total_qty = 0; // Default for quantity of each product
     for (i in POST["quantity"]) { // For loop checking the quantity for each product
-            a_qty = POST[`quantity`][i]; // The total quantity entered for each product
-            total_qty += a_qty; //Increase in quantity
-            if (!isNonNegInt(a_qty)) { // Checks for a non negative integer
-                has_errors = true; // Invalid quantity error
-            }
-        
+        a_qty = POST[`quantity`][i]; // The total quantity entered for each product
+        total_qty += a_qty; //Increase in quantity
+        if (!isNonNegInt(a_qty)) { // Checks for a non negative integer
+            has_errors = true; // Invalid quantity error
+        }
+
     }
     // Respond to errors or redirect to login if no errors, used code from Professor Port's assignment 2 screencast
     if (has_errors) { // if has errors then keeps user on products_display page
@@ -95,12 +97,14 @@ app.post("/process_page", function (request, response, next) { // Processes prod
         response.redirect(request.get("Referrer"));  // If nothing is wrong then send back to where we came from
 
     }
+
 })
 // Return shopping cart data in JSON
 app.post("/get_cart", function (request, response) {
     response.json(request.session.cart);
 });
 
+//Getting the complete purchase page after user presses the purchase button
 app.get("/CompletePurchase", function (request, response) {
     response.send("Thank you for your Purchase!");
 });
@@ -140,8 +144,6 @@ app.post('/process_login', function (request, response, next) {
     response.redirect("invoice.html?" + qs.stringify(request.query)); //If successfully logged in user is sent to the invoice
 
 });
-
-
 
 // Used code from Invoice 4
 function isNonNegInt(q, returnErrors = false) {

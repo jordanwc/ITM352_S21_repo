@@ -8,8 +8,8 @@
 </script>
 
 <script>
-
-function loadJSON(service, callback) {
+//Borrowed code from Assignment 3 example code
+  function loadJSON(service, callback) { //Creating a callback function for JSON
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
     xobj.open('POST', service, false);
@@ -22,12 +22,12 @@ function loadJSON(service, callback) {
     xobj.send(null);
   }
 
-  var products_data;
-  loadJSON('get_products_data', function (response) {
+ // var products_data; 
+ // loadJSON('get_products_data', function (response) {
     // Parsing JSON string into object
-    products_data = JSON.parse(response);
-  });
-  
+  //  products_data = JSON.parse(response);
+ // });
+
 </script>
 <!--Template for nav bar used from w3school-->
 <style>
@@ -56,11 +56,13 @@ function loadJSON(service, callback) {
     float: right;
     padding: 16px 16px;
   }
+
   .topnavc {
     text-align: left;
     float: left;
     padding: 16px 16px;
   }
+
   .topnav a:hover {
     background-color: #ddd;
     color: black;
@@ -74,24 +76,24 @@ function loadJSON(service, callback) {
 </head>
 
 <body>
-<!--Helped by Professor Port in office hours,
+  <!--Helped by Professor Port in office hours,
     Creating a nav bar that links to each specific console-->
   <div class="topnav">
     <script>
-      for(let ptype in allproducts){
-          document.write(`<a href="display.html?producttype=${ptype}">${ptype}</a>`)
+      for (let ptype in allproducts) {
+        document.write(`<a href="display.html?producttype=${ptype}">${ptype}</a>`)
       }
-  </script>
-  
+    </script>
+
   </div>
 
   <div class="topnavb">
     <a href="viewcart.html">Cart</a>
-</div>
+  </div>
 
-<div class="topnavc">
-  <a href="login.html">Login</a>
-</div>
+  <div class="topnavc">
+    <a href="login.html">Login</a>
+  </div>
 
 </body>
 
@@ -118,26 +120,7 @@ function loadJSON(service, callback) {
     document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
 
   }
-  /*
-  function getCookie(name = '') {
-    let cookies = document.cookie;
-    let cookiestore = {};
 
-    cookies = cookies.split(";");
-
-    if (cookies[0] == "" & cookies[0][0] == undefined) {
-      return undefined;
-    }
-    cookies.forEach(function(cookie) {
-      cookie = cookie.split(/=(.+)/);
-      if (cookie[0].substr(0, 1) == ' ') {
-        cookie[0] = cookie[0].substr(1);
-      }
-      cookiestore[cookie[0]] = cookie[1];
-    });
-    return (name !=='' ? cookiestore[name] : cookiestore);
-  }
-*/
   function generate_item_rows(product_quantities_array) { //Function to geneterate products array
     // Product row 
     // Reads which products are being checked out then lists the items out with the price
@@ -195,6 +178,7 @@ function loadJSON(service, callback) {
         <script>
           // Referenced WOD SmartPhoneProducts2, helped by Professor Port in office hours
           //Instead of hard coding we are calling different pages with images and prices using productkey
+          //Helped by Professor Port in office hours
           for (productkey in allproducts) { //Displays the products, images, and prices
 
             document.write(`
@@ -207,11 +191,11 @@ function loadJSON(service, callback) {
     </section>
 
         `);
-  
+
           }
 
         </script>
-        
+
       </main>
 
     </div>
